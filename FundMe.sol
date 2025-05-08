@@ -9,10 +9,11 @@ address constant sepoliaPriceFeed = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
 address constant zksyncPriceFeed = 0x6D41d1dc818112880b40e26BD6FD347E41008eDA;
 address constant zksyncSepoliaPriceFeed = 0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF;
 
+// 716922 -> 696983
 contract FundMe {
     using PriceConverter for uint256; // Adds the library functions to uint256 values.
 
-    uint256 public minimumUsd = 5e18;
+    uint256 public constant MINIMUM_USD = 5e18;
 
     address[] public funders;
     mapping(address funder => uint256 amountFunded) public addressToAmountFunded;
@@ -24,7 +25,7 @@ contract FundMe {
     }   
     function fund() public payable {
         msg.value.getConversionRate();
-        require(msg.value.getConversionRate() >= minimumUsd, "didn't send enough eth"); // 1e18 = 1 ETH
+        require(msg.value.getConversionRate() >= MINIMUM_USD, "didn't send enough eth"); // 1e18 = 1 ETH
         funders.push(msg.sender);
         addressToAmountFunded[msg.sender] += msg.value;
     }
