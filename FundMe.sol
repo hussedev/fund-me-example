@@ -9,7 +9,8 @@ address constant sepoliaPriceFeed = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
 address constant zksyncPriceFeed = 0x6D41d1dc818112880b40e26BD6FD347E41008eDA;
 address constant zksyncSepoliaPriceFeed = 0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF;
 
-// 716922 -> 696983
+error NotOwner();
+
 contract FundMe {
     using PriceConverter for uint256; // Adds the library functions to uint256 values.
 
@@ -55,7 +56,7 @@ contract FundMe {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == i_owner, "Sender is not owner");
+        if(msg.sender != i_owner) { revert NotOwner(); }
         _;
     }
 }
