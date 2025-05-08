@@ -18,10 +18,10 @@ contract FundMe {
     address[] public funders;
     mapping(address funder => uint256 amountFunded) public addressToAmountFunded;
 
-    address public owner;
+    address public immutable i_owner;
 
     constructor() {
-        owner = msg.sender; // deployer of the contract
+        i_owner = msg.sender; // deployer of the contract
     }   
     function fund() public payable {
         msg.value.getConversionRate();
@@ -55,7 +55,7 @@ contract FundMe {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Sender is not owner");
+        require(msg.sender == i_owner, "Sender is not owner");
         _;
     }
 }
